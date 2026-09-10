@@ -1,0 +1,2206 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تمكين</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#07130f;
+  --bg2:#0b1e17;
+  --card:#102a20;
+  --card2:#14352a;
+  --gold:#d8ad55;
+  --gold2:#f1d18a;
+  --green:#32a875;
+  --green2:#207b55;
+  --white:#fff;
+  --muted:#9db2a9;
+  --border:rgba(216,173,85,.18);
+  --danger:#ef7777;
+  --shadow:0 25px 70px rgba(0,0,0,.35);
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:"Cairo",sans-serif;
+  background:
+    radial-gradient(circle at 85% 0%,rgba(50,168,117,.12),transparent 32%),
+    radial-gradient(circle at 10% 80%,rgba(216,173,85,.07),transparent 30%),
+    var(--bg);
+  color:var(--white);
+  min-height:100vh;
+}
+
+button,
+input,
+textarea{
+  font-family:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* LOADER */
+
+#loader{
+  position:fixed;
+  inset:0;
+  z-index:9999;
+  background:#07130f;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:.5s;
+}
+
+.loader-content{
+  text-align:center;
+}
+
+.loader-logo{
+  width:78px;
+  height:78px;
+  margin:auto;
+  border-radius:24px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  color:#102017;
+  font-size:34px;
+  font-weight:900;
+  animation:pulse 1.4s infinite;
+}
+
+.loader-content h1{
+  margin-top:17px;
+  font-size:28px;
+}
+
+.loader-content p{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:3px;
+}
+
+@keyframes pulse{
+  50%{transform:scale(1.06)}
+}
+
+/* AUTH */
+
+#authScreen{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:25px;
+  position:relative;
+  overflow:hidden;
+}
+
+.glow{
+  position:absolute;
+  width:430px;
+  height:430px;
+  border-radius:50%;
+  filter:blur(100px);
+  opacity:.12;
+  pointer-events:none;
+}
+
+.glow.one{
+  background:var(--green);
+  right:-170px;
+  top:-180px;
+}
+
+.glow.two{
+  background:var(--gold);
+  left:-170px;
+  bottom:-180px;
+}
+
+.auth-card{
+  position:relative;
+  z-index:2;
+  width:100%;
+  max-width:480px;
+  padding:38px;
+  background:rgba(10,31,23,.92);
+  border:1px solid var(--border);
+  border-radius:30px;
+  box-shadow:var(--shadow);
+  backdrop-filter:blur(20px);
+}
+
+.brand{
+  text-align:center;
+  margin-bottom:30px;
+}
+
+.brand-logo{
+  width:67px;
+  height:67px;
+  margin:auto;
+  display:grid;
+  place-items:center;
+  border-radius:21px;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  color:#122017;
+  font-size:30px;
+  font-weight:900;
+}
+
+.brand h1{
+  font-size:38px;
+  margin-top:12px;
+}
+
+.brand p{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:2px;
+}
+
+.title{
+  font-size:15px;
+  margin-bottom:11px;
+}
+
+.roles{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+  margin-bottom:22px;
+}
+
+.role{
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.025);
+  color:white;
+  border-radius:17px;
+  padding:17px 10px;
+  transition:.25s;
+}
+
+.role:hover{
+  transform:translateY(-2px);
+  border-color:var(--gold);
+}
+
+.role.active{
+  border-color:var(--gold);
+  background:rgba(216,173,85,.09);
+}
+
+.role-icon{
+  font-size:27px;
+  margin-bottom:5px;
+}
+
+.role strong{
+  display:block;
+  font-size:14px;
+}
+
+.role span{
+  color:var(--muted);
+  font-size:9px;
+}
+
+.input-group{
+  margin-bottom:15px;
+}
+
+.input-group label{
+  display:block;
+  color:#dce7e2;
+  font-size:12px;
+  margin-bottom:7px;
+}
+
+.input{
+  width:100%;
+  height:52px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.035);
+  border-radius:14px;
+  outline:none;
+  color:white;
+  padding:0 15px;
+  direction:rtl;
+  transition:.2s;
+}
+
+.input:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(216,173,85,.06);
+}
+
+.error{
+  color:var(--danger);
+  font-size:10px;
+  margin-top:5px;
+  min-height:15px;
+}
+
+.login-btn{
+  width:100%;
+  height:54px;
+  border:0;
+  border-radius:15px;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  color:#142017;
+  font-size:15px;
+  font-weight:900;
+  transition:.25s;
+}
+
+.login-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 15px 35px rgba(216,173,85,.15);
+}
+
+.auth-note{
+  color:#71877e;
+  font-size:9px;
+  text-align:center;
+  line-height:1.8;
+  margin-top:13px;
+}
+
+/* APP */
+
+#app{
+  min-height:100vh;
+}
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:100;
+  height:76px;
+  background:rgba(7,19,15,.9);
+  backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.topbar-inner{
+  max-width:1320px;
+  height:100%;
+  margin:auto;
+  padding:0 25px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.nav-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:21px;
+  font-weight:900;
+}
+
+.nav-logo{
+  width:43px;
+  height:43px;
+  display:grid;
+  place-items:center;
+  border-radius:13px;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));
+  color:#132017;
+  font-weight:900;
+}
+
+.nav-brand small{
+  display:block;
+  color:var(--gold);
+  font-size:8px;
+  line-height:1;
+}
+
+.nav-actions{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.welcome{
+  color:var(--muted);
+  font-size:11px;
+}
+
+.logout{
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.04);
+  color:white;
+  border-radius:10px;
+  padding:9px 14px;
+  font-size:10px;
+}
+
+.view{
+  max-width:1320px;
+  margin:auto;
+  padding:35px 25px 70px;
+}
+
+/* HERO */
+
+.hero{
+  min-height:275px;
+  padding:42px;
+  border:1px solid var(--border);
+  border-radius:30px;
+  background:
+    linear-gradient(120deg,rgba(18,57,43,.95),rgba(8,28,21,.95));
+  position:relative;
+  overflow:hidden;
+  margin-bottom:25px;
+}
+
+.hero:after{
+  content:"";
+  position:absolute;
+  width:390px;
+  height:390px;
+  border:1px solid rgba(216,173,85,.12);
+  border-radius:50%;
+  left:-150px;
+  top:-210px;
+}
+
+.hero-content{
+  position:relative;
+  z-index:2;
+  max-width:720px;
+}
+
+.eyebrow{
+  color:var(--gold2);
+  font-size:11px;
+  font-weight:800;
+  margin-bottom:9px;
+}
+
+.hero h2{
+  font-size:clamp(28px,4vw,46px);
+  line-height:1.3;
+}
+
+.hero h2 span{
+  color:var(--gold2);
+}
+
+.hero p{
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.9;
+  margin-top:10px;
+}
+
+.hero-button{
+  border:0;
+  background:var(--gold);
+  color:#132017;
+  border-radius:12px;
+  padding:11px 20px;
+  margin-top:18px;
+  font-size:11px;
+  font-weight:900;
+}
+
+/* STATS */
+
+.stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+  margin-bottom:30px;
+}
+
+.stat{
+  background:rgba(16,42,32,.8);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:20px;
+  padding:21px;
+}
+
+.stat-label{
+  color:var(--muted);
+  font-size:10px;
+}
+
+.stat-number{
+  color:var(--gold2);
+  font-size:30px;
+  font-weight:900;
+  margin-top:4px;
+}
+
+/* SECTIONS */
+
+.section{
+  margin-top:30px;
+}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:17px;
+}
+
+.section-head h3{
+  font-size:20px;
+}
+
+.section-head p{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:2px;
+}
+
+.mini-btn{
+  border:1px solid var(--border);
+  background:rgba(216,173,85,.06);
+  color:var(--gold2);
+  border-radius:10px;
+  padding:9px 13px;
+  font-size:10px;
+}
+
+/* QUICK */
+
+.quick-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.quick{
+  padding:22px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:20px;
+  background:linear-gradient(135deg,rgba(20,53,42,.8),rgba(10,29,22,.8));
+  transition:.25s;
+}
+
+.quick:hover{
+  transform:translateY(-4px);
+  border-color:var(--border);
+}
+
+.quick-icon{
+  width:43px;
+  height:43px;
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  background:rgba(216,173,85,.1);
+  color:var(--gold2);
+  font-size:19px;
+  margin-bottom:11px;
+}
+
+.quick strong{
+  display:block;
+  font-size:14px;
+}
+
+.quick span{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.7;
+  margin-top:4px;
+}
+
+/* PRODUCTS */
+
+.items-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:17px;
+}
+
+.item-card{
+  overflow:hidden;
+  background:rgba(16,42,32,.82);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:21px;
+  transition:.25s;
+}
+
+.item-card:hover{
+  transform:translateY(-5px);
+  border-color:rgba(216,173,85,.3);
+  box-shadow:0 15px 40px rgba(0,0,0,.18);
+}
+
+.item-image{
+  height:185px;
+  overflow:hidden;
+  position:relative;
+  background:#17372a;
+}
+
+.item-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:.4s;
+}
+
+.item-card:hover img{
+  transform:scale(1.05);
+}
+
+.tag{
+  position:absolute;
+  right:10px;
+  top:10px;
+  padding:5px 8px;
+  background:rgba(7,19,15,.82);
+  color:var(--gold2);
+  border:1px solid rgba(216,173,85,.2);
+  border-radius:8px;
+  font-size:8px;
+}
+
+.item-body{
+  padding:15px;
+}
+
+.item-body h4{
+  font-size:14px;
+}
+
+.item-body p{
+  color:var(--muted);
+  font-size:10px;
+  line-height:1.7;
+  margin-top:4px;
+  min-height:35px;
+}
+
+.item-bottom{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  margin-top:13px;
+}
+
+.price{
+  color:var(--gold2);
+  font-size:14px;
+  font-weight:900;
+}
+
+.card-btn{
+  border:0;
+  border-radius:9px;
+  padding:8px 11px;
+  background:var(--green2);
+  color:white;
+  font-size:9px;
+  font-weight:800;
+}
+
+.card-btn.gold{
+  background:rgba(216,173,85,.1);
+  color:var(--gold2);
+  border:1px solid rgba(216,173,85,.18);
+}
+
+/* PROJECTS */
+
+.project-list{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.project{
+  background:rgba(16,42,32,.82);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:19px;
+  padding:18px;
+}
+
+.project-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.project-icon{
+  width:43px;
+  height:43px;
+  display:grid;
+  place-items:center;
+  border-radius:13px;
+  background:rgba(50,168,117,.1);
+  font-size:19px;
+}
+
+.status{
+  padding:5px 8px;
+  border-radius:8px;
+  background:rgba(50,168,117,.1);
+  color:#65d49e;
+  font-size:8px;
+}
+
+.project h4{
+  font-size:14px;
+  margin-top:13px;
+}
+
+.project p{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:3px;
+}
+
+.progress{
+  height:5px;
+  background:rgba(255,255,255,.06);
+  border-radius:10px;
+  overflow:hidden;
+  margin-top:15px;
+}
+
+.progress span{
+  display:block;
+  height:100%;
+  background:var(--gold);
+  border-radius:inherit;
+}
+
+/* MODAL */
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  background:rgba(0,0,0,.72);
+  backdrop-filter:blur(8px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:20px;
+}
+
+.modal-card{
+  width:100%;
+  max-width:520px;
+  max-height:90vh;
+  overflow:auto;
+  background:#0c2018;
+  border:1px solid var(--border);
+  border-radius:25px;
+  padding:27px;
+  box-shadow:var(--shadow);
+}
+
+.modal-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.modal-head h3{
+  font-size:20px;
+}
+
+.close{
+  width:35px;
+  height:35px;
+  border:0;
+  border-radius:10px;
+  background:rgba(255,255,255,.06);
+  color:white;
+  font-size:18px;
+}
+
+textarea.input{
+  height:100px;
+  padding-top:13px;
+  resize:vertical;
+}
+
+.file-box{
+  padding:20px;
+  border:1px dashed rgba(216,173,85,.3);
+  border-radius:15px;
+  color:var(--muted);
+  font-size:10px;
+  text-align:center;
+  margin-bottom:15px;
+}
+
+.file-box input{
+  width:100%;
+  margin-top:10px;
+}
+
+.preview{
+  display:none;
+  width:100%;
+  height:170px;
+  object-fit:cover;
+  border-radius:13px;
+  margin-top:12px;
+}
+
+/* TOAST */
+
+#toast{
+  position:fixed;
+  z-index:5000;
+  right:25px;
+  bottom:25px;
+  padding:13px 18px;
+  background:#142b22;
+  border:1px solid var(--border);
+  border-radius:13px;
+  color:white;
+  font-size:10px;
+  box-shadow:var(--shadow);
+  transform:translateY(100px);
+  opacity:0;
+  transition:.3s;
+}
+
+#toast.show{
+  transform:translateY(0);
+  opacity:1;
+}
+
+footer{
+  max-width:1320px;
+  margin:auto;
+  padding:30px 25px;
+  text-align:center;
+  color:#71877e;
+  font-size:9px;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+
+/* MOBILE */
+
+@media(max-width:1000px){
+  .items-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .project-list{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:650px){
+  .auth-card{
+    padding:26px 20px;
+  }
+
+  .topbar{
+    height:auto;
+  }
+
+  .topbar-inner{
+    padding:12px 15px;
+  }
+
+  .welcome{
+    display:none;
+  }
+
+  .view{
+    padding:20px 15px 50px;
+  }
+
+  .hero{
+    padding:27px 21px;
+    border-radius:23px;
+  }
+
+  .stats{
+    grid-template-columns:1fr;
+  }
+
+  .quick-grid{
+    grid-template-columns:1fr;
+  }
+
+  .items-grid{
+    grid-template-columns:1fr;
+  }
+
+  .item-image{
+    height:210px;
+  }
+
+  .section-head{
+    align-items:flex-start;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-content">
+    <div class="loader-logo">ت</div>
+    <h1>تمكين</h1>
+    <p>نمنح الأشياء القديمة فرصة جديدة</p>
+  </div>
+</div>
+
+
+<!-- LOGIN -->
+<section id="authScreen" class="hidden">
+
+  <div class="glow one"></div>
+  <div class="glow two"></div>
+
+  <div class="auth-card">
+
+    <div class="brand">
+      <div class="brand-logo">ت</div>
+      <h1>تمكين</h1>
+      <p>إعادة ابتكار الأشياء القديمة وتحويلها إلى قيمة جديدة</p>
+    </div>
+
+    <div class="title">اختر نوع الحساب</div>
+
+    <div class="roles">
+
+      <button
+        type="button"
+        class="role active"
+        id="clientRole"
+        onclick="selectRole('client')"
+      >
+        <div class="role-icon">🛍️</div>
+        <strong>عميل</strong>
+        <span>استكشف واشترِ وأضف قطعك</span>
+      </button>
+
+      <button
+        type="button"
+        class="role"
+        id="craftsmanRole"
+        onclick="selectRole('craftsman')"
+      >
+        <div class="role-icon">🛠️</div>
+        <strong>حرفي</strong>
+        <span>طوّر القطع وحوّلها إلى منتجات</span>
+      </button>
+
+    </div>
+
+    <form id="loginForm">
+
+      <div class="input-group">
+        <label>الاسم</label>
+        <input
+          id="nameInput"
+          class="input"
+          type="text"
+          placeholder="اكتب اسمك"
+          autocomplete="off"
+        >
+        <div id="nameError" class="error"></div>
+      </div>
+
+      <div class="input-group">
+        <label>البريد الإلكتروني</label>
+        <input
+          id="emailInput"
+          class="input"
+          type="email"
+          placeholder="example@gmail.com"
+          autocomplete="off"
+        >
+        <div id="emailError" class="error"></div>
+      </div>
+
+      <div class="input-group">
+        <label>كلمة المرور</label>
+        <input
+          id="passwordInput"
+          class="input"
+          type="password"
+          placeholder="اكتب كلمة المرور"
+          autocomplete="off"
+        >
+        <div id="passwordError" class="error"></div>
+      </div>
+
+      <button class="login-btn" type="submit">
+        إنشاء الحساب والدخول
+      </button>
+
+    </form>
+
+    <div class="auth-note">
+      البريد الإلكتروني يتم التحقق من صحته فقط ولا يتم حفظه.
+    </div>
+
+  </div>
+</section>
+
+
+<!-- APPLICATION -->
+<div id="app" class="hidden">
+
+  <header class="topbar">
+
+    <div class="topbar-inner">
+
+      <div class="nav-brand">
+        <div class="nav-logo">ت</div>
+        <div>
+          تمكين
+          <small id="roleLabel">مساحة العميل</small>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <span id="welcomeText" class="welcome"></span>
+        <button class="logout" onclick="logout()">تسجيل الخروج</button>
+      </div>
+
+    </div>
+
+  </header>
+
+
+  <!-- CLIENT SECTION -->
+  <main id="clientView" class="view hidden">
+
+    <section class="hero">
+
+      <div class="hero-content">
+
+        <div class="eyebrow">مساحة العميل</div>
+
+        <h2>
+          أهلاً <span id="clientName"></span>
+          <br>
+          اكتشف قيمة الأشياء من جديد
+        </h2>
+
+        <p>
+          تصفح القطع التي أعاد الحرفيون ابتكارها،
+          أو أضف قطعة قديمة لديك لتجد لها فرصة جديدة.
+        </p>
+
+        <button class="hero-button" onclick="openAddModal()">
+          + أضف قطعة قديمة
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <section class="stats">
+
+      <div class="stat">
+        <div class="stat-label">القطع التي أضفتها</div>
+        <div class="stat-number" id="clientPiecesCount">0</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">القطع المتاحة للشراء</div>
+        <div class="stat-number">12</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">القطع التي اقتنيتها</div>
+        <div class="stat-number">0</div>
+      </div>
+
+    </section>
+
+
+    <section class="section">
+
+      <div class="section-head">
+        <div>
+          <h3>مساحتك</h3>
+          <p>كل ما تحتاجه كعميل في مكان واحد</p>
+        </div>
+      </div>
+
+      <div class="quick-grid">
+
+        <div class="quick" onclick="openAddModal()">
+          <div class="quick-icon">♻️</div>
+          <strong>أضف قطعة قديمة</strong>
+          <span>ارفع صورة القطعة ووصفها ليتمكن الحرفيون من رؤيتها.</span>
+        </div>
+
+        <div class="quick" onclick="scrollToStore()">
+          <div class="quick-icon">🛒</div>
+          <strong>تصفح المتجر</strong>
+          <span>شاهد القطع التي تحولت إلى منتجات جديدة ومميزة.</span>
+        </div>
+
+        <div class="quick" onclick="showMyPieces()">
+          <div class="quick-icon">📦</div>
+          <strong>قطعي</strong>
+          <span>تابع القطع التي أضفتها إلى تمكين.</span>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="section" id="storeSection">
+
+      <div class="section-head">
+        <div>
+          <h3>متجر تمكين</h3>
+          <p>منتجات أعاد الحرفيون ابتكارها</p>
+        </div>
+
+        <button class="mini-btn" onclick="showToast('هذه جميع المنتجات المتاحة حالياً')">
+          عرض الكل
+        </button>
+      </div>
+
+      <div class="items-grid" id="storeGrid"></div>
+
+    </section>
+
+
+    <section class="section hidden" id="myPiecesSection">
+
+      <div class="section-head">
+        <div>
+          <h3>قطعي المضافة</h3>
+          <p>القطع التي أضفتها أنت</p>
+        </div>
+      </div>
+
+      <div class="items-grid" id="myPiecesGrid"></div>
+
+    </section>
+
+  </main>
+
+
+  <!-- CRAFTSMAN SECTION -->
+  <main id="craftsmanView" class="view hidden">
+
+    <section class="hero">
+
+      <div class="hero-content">
+
+        <div class="eyebrow">مساحة الحرفي</div>
+
+        <h2>
+          أهلاً يا <span id="craftsmanName"></span>
+          <br>
+          اصنع من القديم شيئاً استثنائياً
+        </h2>
+
+        <p>
+          اختر قطعة قديمة، تبنّها، أعد تصميمها،
+          ثم حوّلها إلى منتج جديد يمكن عرضه في متجر تمكين.
+        </p>
+
+      </div>
+
+    </section>
+
+
+    <section class="stats">
+
+      <div class="stat">
+        <div class="stat-label">قطع متاحة للتبنّي</div>
+        <div class="stat-number" id="availableCount">0</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">مشاريعي الحالية</div>
+        <div class="stat-number">2</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">مشاريع مكتملة</div>
+        <div class="stat-number">5</div>
+      </div>
+
+    </section>
+
+
+    <section class="section">
+
+      <div class="section-head">
+        <div>
+          <h3>مساحة الحرفي</h3>
+          <p>أدواتك الأساسية</p>
+        </div>
+      </div>
+
+      <div class="quick-grid">
+
+        <div class="quick" onclick="scrollToAvailable()">
+          <div class="quick-icon">🔨</div>
+          <strong>اكتشف القطع</strong>
+          <span>شاهد القطع التي أضافها العملاء واختر ما يناسب مهارتك.</span>
+        </div>
+
+        <div class="quick" onclick="scrollToProjects()">
+          <div class="quick-icon">📐</div>
+          <strong>مشاريعي</strong>
+          <span>تابع المشاريع التي تعمل عليها ونسبة إنجازها.</span>
+        </div>
+
+        <div class="quick" onclick="showToast('ملف الحرفي قيد التجهيز')">
+          <div class="quick-icon">👤</div>
+          <strong>ملفي كحرفي</strong>
+          <span>اعرض مهاراتك وأعمالك وخبرتك للعملاء.</span>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <section class="section" id="availableSection">
+
+      <div class="section-head">
+        <div>
+          <h3>قطع متاحة للحرفيين</h3>
+          <p>اختر قطعة وابدأ مشروعك</p>
+        </div>
+      </div>
+
+      <div class="items-grid" id="availableGrid"></div>
+
+    </section>
+
+
+    <section class="section" id="projectsSection">
+
+      <div class="section-head">
+        <div>
+          <h3>مشاريعي الحالية</h3>
+          <p>المشاريع التي تعمل عليها</p>
+        </div>
+      </div>
+
+      <div class="project-list">
+
+        <div class="project">
+          <div class="project-head">
+            <div class="project-icon">🪑</div>
+            <div class="status">قيد العمل</div>
+          </div>
+          <h4>كرسي خشبي قديم</h4>
+          <p>إعادة تصميم وتجديد كرسي قديم.</p>
+          <div class="progress">
+            <span style="width:72%"></span>
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-head">
+            <div class="project-icon">🗄️</div>
+            <div class="status">قيد العمل</div>
+          </div>
+          <h4>خزانة قديمة</h4>
+          <p>تحويل الخزانة إلى قطعة ديكور عصرية.</p>
+          <div class="progress">
+            <span style="width:45%"></span>
+          </div>
+        </div>
+
+        <div class="project">
+          <div class="project-head">
+            <div class="project-icon">✨</div>
+            <div class="status">مكتمل</div>
+          </div>
+          <h4>طاولة جانبية</h4>
+          <p>قطعة مكتملة وجاهزة للعرض في المتجر.</p>
+          <div class="progress">
+            <span style="width:100%"></span>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <footer>
+    تمكين © 2026 — إعادة استخدام، إبداع، وفرص جديدة
+  </footer>
+
+</div>
+
+
+<!-- ADD PIECE MODAL -->
+
+<div id="addModal" class="modal hidden">
+
+  <div class="modal-card">
+
+    <div class="modal-head">
+      <h3>إضافة قطعة قديمة</h3>
+      <button class="close" onclick="closeAddModal()">×</button>
+    </div>
+
+    <div class="input-group">
+      <label>اسم القطعة</label>
+      <input
+        id="pieceName"
+        class="input"
+        type="text"
+        placeholder="مثلاً: كرسي خشبي قديم"
+      >
+    </div>
+
+    <div class="input-group">
+      <label>وصف القطعة</label>
+      <textarea
+        id="pieceDescription"
+        class="input"
+        placeholder="اكتب وصفاً للقطعة وحالتها..."
+      ></textarea>
+    </div>
+
+    <div class="file-box">
+      📷 أضف صورة للقطعة
+      <input
+        id="pieceImage"
+        type="file"
+        accept="image/*"
+        onchange="previewImage(event)"
+      >
+      <img id="imagePreview" class="preview">
+    </div>
+
+    <button class="login-btn" onclick="addPiece()">
+      إضافة القطعة
+    </button>
+
+  </div>
+
+</div>
+
+
+<div id="toast"></div>
+
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+let selectedRole = "client";
+
+let currentUser = {
+  name:"",
+  role:""
+};
+
+let myPieces = [];
+
+
+const storeItems = [
+
+  {
+    name:"طاولة خشبية عصرية",
+    description:"طاولة أعيد تصميمها من خشب قديم.",
+    price:"320 ريال",
+    tag:"أثاث",
+    image:"https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?auto=format&fit=crop&w=900&q=80"
+  },
+
+  {
+    name:"كرسي بطابع جديد",
+    description:"كرسي قديم أعيد تجديده بلمسة فنية.",
+    price:"180 ريال",
+    tag:"كرسي",
+    image:"https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?auto=format&fit=crop&w=900&q=80"
+  },
+
+  {
+    name:"خزانة ديكور",
+    description:"خزانة قديمة تحولت إلى قطعة ديكور.",
+    price:"490 ريال",
+    tag:"ديكور",
+    image:"https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=900&q=80"
+  },
+
+  {
+    name:"طاولة جانبية",
+    description:"قطعة فريدة من خامات معاد استخدامها.",
+    price:"150 ريال",
+    tag:"طاولات",
+    image:"https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=900&q=80"
+  },
+
+  {
+    name:"مقعد خشبي",
+    description:"مقعد بطابع بسيط ومميز.",
+    price:"210 ريال",
+    tag:"أثاث",
+    image:"https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=900&q=80"
+  },
+
+  {
+    name:"رف جداري",
+    description:"رف من خشب معاد استخدامه.",
+    price:"95 ريال",
+    tag:"ديكور",
+    image:"https://images.unsplash.com/photo-1594620302200-9a762244a156?auto=format&fit=crop&w=900&q=80"
+  },
+
+  {
+    name:"طاولة قهوة",
+    description:"إعادة ابتكار لقطعة أثاث قديمة.",
+    price:"375 ريال",
+    tag:"طاولات",
+    image:"https://images.unsplash.com/photo-1499933374294-4584851497cc?auto=format&fit=crop&w=900&q=80"
+  },
+
+  {
+    name:"مصباح ديكوري",
+    description:"قطعة مميزة أعيد استخدامها بطريقة جديدة.",
+    price:"130 ريال",
+    tag:"إضاءة",
+    image:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=900&q=80"
+  }
+
+];
+
+
+let availablePieces = [
+
+  {
+    name:"كرسي قديم",
+    description:"كرسي يحتاج إلى تجديد وإعادة تصميم.",
+    tag:"قطعة متاحة",
+    image:"https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=900&q=80"
+  },
+
+  {
+    name:"طاولة مهملة",
+    description:"طاولة خشبية قديمة قابلة لإعادة الابتكار.",
+    tag:"قطعة متاحة",
+    image:"https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=900&q=80"
+  },
+
+  {
+    name:"خزانة قديمة",
+    description:"خزانة تحتاج إلى ترميم وتحويل.",
+    tag:"قطعة متاحة",
+    image:"https://images.unsplash.com/photo-1558997519-83ea9252edf8?auto=format&fit=crop&w=900&q=80"
+  },
+
+  {
+    name:"قطعة خشبية قديمة",
+    description:"يمكن تحويلها إلى قطعة ديكور مميزة.",
+    tag:"قطعة متاحة",
+    image:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80"
+  }
+
+];
+
+
+/* =========================
+   START
+========================= */
+
+window.addEventListener("load",function(){
+
+  setTimeout(function(){
+
+    const loader=document.getElementById("loader");
+
+    loader.style.opacity="0";
+
+    setTimeout(function(){
+
+      loader.style.display="none";
+
+      document
+        .getElementById("authScreen")
+        .classList
+        .remove("hidden");
+
+    },500);
+
+  },900);
+
+  renderStore();
+  renderAvailable();
+
+});
+
+
+/* =========================
+   ROLE
+========================= */
+
+function selectRole(role){
+
+  selectedRole=role;
+
+  document
+    .getElementById("clientRole")
+    .classList
+    .toggle("active",role==="client");
+
+  document
+    .getElementById("craftsmanRole")
+    .classList
+    .toggle("active",role==="craftsman");
+}
+
+
+/* =========================
+   EMAIL
+========================= */
+
+function validEmail(email){
+
+  const pattern=/^[^\s@]+@[^\s@]+\.com$/i;
+
+  return pattern.test(email.trim());
+}
+
+
+/* =========================
+   LOGIN
+========================= */
+
+document
+.getElementById("loginForm")
+.addEventListener("submit",function(e){
+
+  e.preventDefault();
+
+  const name=
+    document.getElementById("nameInput")
+    .value
+    .trim();
+
+  const email=
+    document.getElementById("emailInput")
+    .value
+    .trim();
+
+  const password=
+    document.getElementById("passwordInput")
+    .value
+    .trim();
+
+
+  document.getElementById("nameError").textContent="";
+  document.getElementById("emailError").textContent="";
+  document.getElementById("passwordError").textContent="";
+
+
+  let valid=true;
+
+
+  if(!name){
+
+    document.getElementById("nameError").textContent=
+      "اكتب اسمك";
+
+    valid=false;
+  }
+
+
+  if(!validEmail(email)){
+
+    document.getElementById("emailError").textContent=
+      "اكتب بريداً صحيحاً مثل example@gmail.com";
+
+    valid=false;
+  }
+
+
+  if(!password){
+
+    document.getElementById("passwordError").textContent=
+      "اكتب كلمة المرور";
+
+    valid=false;
+  }
+
+
+  if(!valid) return;
+
+
+  /*
+    البريد لا يتم حفظه.
+    كلمة المرور لا يتم حفظها.
+    نستخدمهما فقط للتحقق من تعبئة النموذج.
+  */
+
+  currentUser.name=name;
+  currentUser.role=selectedRole;
+
+
+  document
+    .getElementById("authScreen")
+    .classList
+    .add("hidden");
+
+  document
+    .getElementById("app")
+    .classList
+    .remove("hidden");
+
+
+  document
+    .getElementById("welcomeText")
+    .textContent=
+    "أهلاً "+name;
+
+
+  if(selectedRole==="client"){
+
+    document
+      .getElementById("clientView")
+      .classList
+      .remove("hidden");
+
+    document
+      .getElementById("craftsmanView")
+      .classList
+      .add("hidden");
+
+    document
+      .getElementById("roleLabel")
+      .textContent=
+      "مساحة العميل";
+
+    document
+      .getElementById("clientName")
+      .textContent=
+      name;
+
+  }else{
+
+    document
+      .getElementById("craftsmanView")
+      .classList
+      .remove("hidden");
+
+    document
+      .getElementById("clientView")
+      .classList
+      .add("hidden");
+
+    document
+      .getElementById("roleLabel")
+      .textContent=
+      "مساحة الحرفي";
+
+    document
+      .getElementById("craftsmanName")
+      .textContent=
+      name;
+  }
+
+});
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+function logout(){
+
+  currentUser={
+    name:"",
+    role:""
+  };
+
+  document
+    .getElementById("app")
+    .classList
+    .add("hidden");
+
+  document
+    .getElementById("clientView")
+    .classList
+    .add("hidden");
+
+  document
+    .getElementById("craftsmanView")
+    .classList
+    .add("hidden");
+
+  document
+    .getElementById("authScreen")
+    .classList
+    .remove("hidden");
+
+  document.getElementById("nameInput").value="";
+  document.getElementById("emailInput").value="";
+  document.getElementById("passwordInput").value="";
+
+  selectRole("client");
+
+  window.scrollTo(0,0);
+}
+
+
+/* =========================
+   STORE
+========================= */
+
+function renderStore(){
+
+  const grid=
+    document.getElementById("storeGrid");
+
+  grid.innerHTML="";
+
+  storeItems.forEach(function(item){
+
+    grid.innerHTML+=`
+
+      <article class="item-card">
+
+        <div class="item-image">
+
+          <img
+            src="${item.image}"
+            alt="${item.name}"
+          >
+
+          <span class="tag">
+            ${item.tag}
+          </span>
+
+        </div>
+
+        <div class="item-body">
+
+          <h4>${item.name}</h4>
+
+          <p>
+            ${item.description}
+          </p>
+
+          <div class="item-bottom">
+
+            <div class="price">
+              ${item.price}
+            </div>
+
+            <button
+              class="card-btn"
+              onclick="buyItem('${item.name}')"
+            >
+              اقتناء
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    `;
+
+  });
+
+}
+
+
+function buyItem(name){
+
+  showToast(
+    "تم اختيار «"+name+"»"
+  );
+
+}
+
+
+/* =========================
+   AVAILABLE
+========================= */
+
+function renderAvailable(){
+
+  const grid=
+    document.getElementById("availableGrid");
+
+  grid.innerHTML="";
+
+  availablePieces.forEach(function(piece){
+
+    grid.innerHTML+=`
+
+      <article class="item-card">
+
+        <div class="item-image">
+
+          <img
+            src="${piece.image}"
+            alt="${piece.name}"
+          >
+
+          <span class="tag">
+            ${piece.tag}
+          </span>
+
+        </div>
+
+        <div class="item-body">
+
+          <h4>${piece.name}</h4>
+
+          <p>
+            ${piece.description}
+          </p>
+
+          <div class="item-bottom">
+
+            <div class="price">
+              متاحة
+            </div>
+
+            <button
+              class="card-btn gold"
+              onclick="adoptPiece('${piece.name}')"
+            >
+              تبنّي
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    `;
+
+  });
+
+
+  document
+    .getElementById("availableCount")
+    .textContent=
+    availablePieces.length;
+}
+
+
+function adoptPiece(name){
+
+  const index=
+    availablePieces.findIndex(
+      function(piece){
+        return piece.name===name;
+      }
+    );
+
+  if(index!==-1){
+
+    availablePieces.splice(index,1);
+
+    renderAvailable();
+
+    showToast(
+      "تم تبنّي «"+name+"»"
+    );
+  }
+}
+
+
+/* =========================
+   ADD PIECE
+========================= */
+
+function openAddModal(){
+
+  if(currentUser.role!=="client"){
+
+    showToast(
+      "هذه الخاصية موجودة في مساحة العميل"
+    );
+
+    return;
+  }
+
+  document
+    .getElementById("addModal")
+    .classList
+    .remove("hidden");
+}
+
+
+function closeAddModal(){
+
+  document
+    .getElementById("addModal")
+    .classList
+    .add("hidden");
+
+  document.getElementById("pieceName").value="";
+  document.getElementById("pieceDescription").value="";
+  document.getElementById("pieceImage").value="";
+
+  const preview=
+    document.getElementById("imagePreview");
+
+  preview.src="";
+  preview.style.display="none";
+}
+
+
+function previewImage(event){
+
+  const file=
+    event.target.files[0];
+
+  if(!file) return;
+
+  const preview=
+    document.getElementById("imagePreview");
+
+  const reader=
+    new FileReader();
+
+  reader.onload=function(e){
+
+    preview.src=e.target.result;
+    preview.style.display="block";
+
+  };
+
+  reader.readAsDataURL(file);
+}
+
+
+function addPiece(){
+
+  const name=
+    document
+    .getElementById("pieceName")
+    .value
+    .trim();
+
+  const description=
+    document
+    .getElementById("pieceDescription")
+    .value
+    .trim();
+
+  const file=
+    document
+    .getElementById("pieceImage")
+    .files[0];
+
+
+  if(!name){
+
+    showToast("اكتب اسم القطعة");
+    return;
+  }
+
+
+  if(!description){
+
+    showToast("اكتب وصف القطعة");
+    return;
+  }
+
+
+  const defaultImage=
+    "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=900&q=80";
+
+
+  if(file){
+
+    const reader=
+      new FileReader();
+
+    reader.onload=function(e){
+
+      savePiece(
+        name,
+        description,
+        e.target.result
+      );
+
+    };
+
+    reader.readAsDataURL(file);
+
+  }else{
+
+    savePiece(
+      name,
+      description,
+      defaultImage
+    );
+
+  }
+
+}
+
+
+function savePiece(
+  name,
+  description,
+  image
+){
+
+  myPieces.push({
+
+    name:name,
+    description:description,
+    image:image,
+    tag:"قطعة جديدة"
+
+  });
+
+
+  renderMyPieces();
+
+
+  document
+    .getElementById("clientPiecesCount")
+    .textContent=
+    myPieces.length;
+
+
+  closeAddModal();
+
+
+  showToast(
+    "تمت إضافة القطعة بنجاح"
+  );
+
+}
+
+
+/* =========================
+   MY PIECES
+========================= */
+
+function renderMyPieces(){
+
+  const grid=
+    document.getElementById("myPiecesGrid");
+
+  grid.innerHTML="";
+
+
+  if(myPieces.length===0){
+
+    grid.innerHTML=`
+
+      <div style="
+        grid-column:1/-1;
+        padding:40px;
+        text-align:center;
+        border:1px dashed rgba(216,173,85,.2);
+        border-radius:20px;
+        color:#8fa39b;
+        font-size:11px;
+      ">
+        لم تضف أي قطعة حتى الآن.
+      </div>
+
+    `;
+
+    return;
+  }
+
+
+  myPieces.forEach(function(piece){
+
+    grid.innerHTML+=`
+
+      <article class="item-card">
+
+        <div class="item-image">
+
+          <img
+            src="${piece.image}"
+            alt="${piece.name}"
+          >
+
+          <span class="tag">
+            ${piece.tag}
+          </span>
+
+        </div>
+
+        <div class="item-body">
+
+          <h4>${piece.name}</h4>
+
+          <p>
+            ${piece.description}
+          </p>
+
+          <div class="item-bottom">
+
+            <div class="price">
+              بانتظار الحرفي
+            </div>
+
+            <button
+              class="card-btn gold"
+              onclick="showToast('ستظهر حالة القطعة هنا')"
+            >
+              التفاصيل
+            </button>
+
+          </div>
+
+        </div>
+
+      </article>
+
+    `;
+
+  });
+
+}
+
+
+function showMyPieces(){
+
+  const section=
+    document.getElementById("myPiecesSection");
+
+  section.classList.remove("hidden");
+
+  renderMyPieces();
+
+  section.scrollIntoView({
+    behavior:"smooth"
+  });
+}
+
+
+/* =========================
+   SCROLL
+========================= */
+
+function scrollToStore(){
+
+  document
+    .getElementById("storeSection")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+}
+
+
+function scrollToAvailable(){
+
+  document
+    .getElementById("availableSection")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+}
+
+
+function scrollToProjects(){
+
+  document
+    .getElementById("projectsSection")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+let toastTimer;
+
+function showToast(message){
+
+  const toast=
+    document.getElementById("toast");
+
+  toast.textContent=message;
+
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer=
+    setTimeout(function(){
+
+      toast.classList.remove("show");
+
+    },2800);
+}
+
+
+/* =========================
+   CLOSE MODAL
+========================= */
+
+document
+  .getElementById("addModal")
+  .addEventListener("click",function(e){
+
+    if(e.target===this){
+      closeAddModal();
+    }
+
+  });
+
+</script>
+
+</body>
+</html>
+```
